@@ -12,7 +12,7 @@ import {getRequest} from "./utils/api";
 import {putRequest} from "./utils/api";
 import {deleteRequest} from "./utils/api";
 
-Vue.prototype.doLogin = doLogin;        // 此处的postRequest是引用
+Vue.prototype.doLogin = doLogin;
 Vue.prototype.postRequest = postRequest;
 Vue.prototype.getRequest = getRequest;
 Vue.prototype.putRequest = putRequest;

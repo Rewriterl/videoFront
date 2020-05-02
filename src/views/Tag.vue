@@ -17,9 +17,9 @@
                     prefix-icon="el-icon=search"
                     style="width: 300px;margin-left: 30px"
                     v-model="keyword"
-                    @keydown.enter.native="initTable">
+                    @keydown.enter.native="initTable()">
             </el-input>
-            <el-button icon="el-icon-plus" size="small" type="primary" plain @click="initTable">查询</el-button>
+            <el-button icon="el-icon-plus" size="small" type="primary" plain @click="initTable()">查询</el-button>
         </div>
         <div class="tableMain">
             <el-table
@@ -76,7 +76,7 @@
                         :total="total">
                 </el-pagination>
             </div>
-            <el-button @click="deleteTags" type="danger" style="margin-top:8px" :disabled="multipleSelection.length==0">
+            <el-button @click="deleteTags" type="danger" style="margin-top:8px" :disabled="multipleSelection.length===0">
                 批量删除
             </el-button>
         </div>
@@ -120,6 +120,14 @@
         mounted() {
             this.initTable();
         },
+        watch: {
+            total(){
+                if (this.total === (this.page-1)*this.size && this.total!== 0){
+                    this.page-=1;
+                    this.initTable();
+                }
+            }
+        },
         methods: {
             initTable() {
                 this.loading = true
@@ -127,12 +135,12 @@
                     if (resp) {
                         this.loading = false
                         this.tableData = resp.data;
-                        this.total = resp.data[0].total;
+                        this.total = resp.total;
                     }
                 })
             },
             showEditView(index, data) {
-                // 对象拷贝，这样能避免在未执行修改时数据发生变化
+                // 对象属性拷贝，这样能避免在未执行修改时数据发生变化
                 Object.assign(this.tagViewObj, data)
                 this.dialogVisible = true;
             },

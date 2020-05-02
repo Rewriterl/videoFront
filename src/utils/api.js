@@ -3,7 +3,7 @@ import {Message} from "element-ui";
 
 // 给自己提个醒：axiox返回的错误类型只有200和500
 axios.interceptors.response.use(success => {
-    if (success.status && success.status == 200 && success.data.code == 500) {
+    if (success.status && success.status === 200 && success.data.code === 500) {
         Message.error({message: success.data.message})
         return;
     }
@@ -13,11 +13,11 @@ axios.interceptors.response.use(success => {
     return success.data;
 }, error => {
     console.log(error.response)
-    if (error.response.status == 504 || error.response.status == 404) {
+    if (error.response.status === 504 || error.response.status === 404) {
         Message.error({message: '没找到服务器'})
-    } else if (error.response.status == 403) {
+    } else if (error.response.status === 403) {
         Message.error({message: '权限不足'})
-    } else if (error.status == 401) {
+    } else if (error.status === 401) {
         Message.error({message: '请登录'})
     } else {
         if (error.response.data.message) {
